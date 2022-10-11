@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Button, Card, Row } from "react-bootstrap";
+import { Button, Card, Row, Modal } from "react-bootstrap";
 import Deck from "../DeckClass.js";
 import Rules from "./Rules.js";
 import CardShow from "./CardShow.js";
+import WinLose from "./WinLose.js";
 
 function BlackJack() {
   const [deck, setDeck] = useState([]);
@@ -12,7 +13,15 @@ function BlackJack() {
   const [playerTotal, setPlayerTotal] = useState(0);
   const [dealerTotal, setdealerTotal] = useState(0);
   const [startGame, setStartGame] = useState(false);
-  const [winner, setWinner] = useState("");
+  const [winner, setWinner] = useState(false);
+  //modal
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setShow(false)
+    
+  };
+
 
   useEffect(() => {
     setDeck(new Deck().cards);
@@ -20,7 +29,7 @@ function BlackJack() {
 
   useEffect(() => {
     calculate();
-  }, [playerHand, dealerHand]);
+  }, [playerHand, dealerHand, winner]);
 
   const play = () => {
     setPlayerHand([...playerHand, deck.pop(), deck.pop()]);
@@ -31,6 +40,7 @@ function BlackJack() {
 
   const hit = () => {
     setPlayerHand([...playerHand, deck.pop()]);
+    calculate();
   };
 
   const calculate = () => {
@@ -54,7 +64,7 @@ function BlackJack() {
     //Check Ace
     //If we find an Ace, hand = 2 values, if one of the value goes over 21,
     //delete it and only keep other one
-    
+
     if (dealerTotal > 21) {
       setWinner("Player");
       return;
@@ -68,7 +78,9 @@ function BlackJack() {
     } else {
       setWinner("Tie");
     }
+    setShow(true);
   };
+  console.log(winner);
   //modal pop up if winner is truthy
   return (
     <div className="px-5 py-5">
@@ -112,6 +124,21 @@ function BlackJack() {
       )}
 
       <Rules />
+
+      <div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>BAM!</Modal.Title>
+          </Modal.Header>
+          {winner == "Player" ? <Modal.Body>Winner Winner Chicken Dinner</Modal.Body> : winner == "Dealer" ? <Modal.Body>You win sum... you lose sum...</Modal.Body> : <Modal.Body> It's a tie!!</Modal.Body>}
+          
+          <Modal.Footer>
+            <Button variant="success" onClick={handleClose}>
+              New Game
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 }
