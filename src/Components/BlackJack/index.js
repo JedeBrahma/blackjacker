@@ -21,8 +21,11 @@ function BlackJack() {
   const [winner, setWinner] = useState("");
 
   const handleClose = () => {
-    setShow(false)
-    
+    setShow(false);
+    setDeck(new Deck().cards);
+    setStartGame(false);
+    setPlayerHand([])
+    setDealerHand([])
   };
 
   useEffect(() => {
@@ -31,7 +34,7 @@ function BlackJack() {
 
   useEffect(() => {
     calculate();
-  }, [playerHand, dealerHand, winner]);
+  }, [playerHand, dealerHand, winner, playerTotal, dealerTotal]);
 
   const play = () => {
     setPlayerHand([...playerHand, deck.pop(), deck.pop()]);
@@ -47,19 +50,22 @@ function BlackJack() {
 
   const calculate = () => {
     let player = [0];
-    let dealer = [0];
+    let dealer = [0]; //[9, 19]
     playerHand.map((card) => {
+      let temp = player[0];
       player[0] += card.value;
+
       if (card.value === 1) {
         setPlayerAce(true);
-        player.push += card.value + 10 + player[0];
+        player.push(card.value + 10 + temp);
       }
     });
     dealerHand.map((card) => {
+      let temp = dealer[0];
       dealer[0] += card.value;
       if (card.value === 1) {
         setDealerAce(true);
-        dealer.push += card.value + 10 + dealer[0];
+        dealer.push(card.value + 10 + temp);
       }
     });
 
@@ -74,7 +80,7 @@ function BlackJack() {
       setDealerTotal(dealer[0]);
     }
 
-    if (player >= 21 || dealer >= 21) {
+    if (playerTotal >= 21 || dealerTotal >= 21) {
       checkWinner();
     }
   };
@@ -83,12 +89,14 @@ function BlackJack() {
     //Check Ace
     //If we find an Ace, hand = 2 values, if one of the value goes over 21,
     //delete it and only keep other one
-    
+
     if (dealerTotal > 21) {
       setWinner("Player");
+      setShow(true);
       return;
     } else if (playerTotal > 21) {
       setWinner("Dealer");
+      setShow(true);
       return;
     } else if (playerTotal > dealerTotal) {
       setWinner("Player");
@@ -99,7 +107,7 @@ function BlackJack() {
     }
     setShow(true);
   };
-  console.log(winner);
+
   //modal pop up if winner is truthy
   return (
     <div className="px-5 py-5">
@@ -149,8 +157,14 @@ function BlackJack() {
           <Modal.Header closeButton>
             <Modal.Title>BAM!</Modal.Title>
           </Modal.Header>
-          {winner == "Player" ? <Modal.Body>Winner Winner Chicken Dinner</Modal.Body> : winner == "Dealer" ? <Modal.Body>You win sum... you lose sum...</Modal.Body> : <Modal.Body> It's a tie!!</Modal.Body>}
-          
+          {winner == "Player" ? (
+            <Modal.Body>Winner Winner Chicken Dinner</Modal.Body>
+          ) : winner == "Dealer" ? (
+            <Modal.Body>You win sum... you lose sum...</Modal.Body>
+          ) : (
+            <Modal.Body> It's a tie!!</Modal.Body>
+          )}
+
           <Modal.Footer>
             <Button variant="success" onClick={handleClose}>
               New Game
@@ -158,6 +172,7 @@ function BlackJack() {
           </Modal.Footer>
         </Modal>
       </div>
+      <p>Brought to you by Mason, John, Kim, Adnan, Tom</p>
     </div>
   );
 }
