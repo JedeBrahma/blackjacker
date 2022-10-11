@@ -52,26 +52,26 @@ function BlackJack() {
       player[0] += card.value;
       if (card.value === 1) {
         setPlayerAce(true);
-        player.push += card.value + 10;
+        player.push += card.value + 10 + player[0];
       }
     });
     dealerHand.map((card) => {
       dealer[0] += card.value;
       if (card.value === 1) {
         setDealerAce(true);
-        dealer.push += card.value + 10;
+        dealer.push += card.value + 10 + dealer[0];
       }
     });
 
-    if (playerAce && player[0] > 21) {
+    if (playerAce && player[0] + 10 < 21 && player[1] <= 21) {
       setPlayerTotal(player.pop());
     } else {
-      setPlayerTotal(player);
+      setPlayerTotal(player[0]);
     }
-    if (dealerAce && dealer[0] > 21) {
+    if (dealerAce && dealer[0] + 10 < 21 && dealer[1] <= 21) {
       setDealerTotal(dealer.pop());
     } else {
-      setDealerTotal(dealer);
+      setDealerTotal(dealer[0]);
     }
 
     if (player >= 21 || dealer >= 21) {
