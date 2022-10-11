@@ -10,8 +10,10 @@ function BlackJack() {
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerHand, setDealerHand] = useState([]);
   const [playerTotal, setPlayerTotal] = useState(0);
-  const [dealerTotal, setdealerTotal] = useState(0);
+  const [dealerTotal, setDealerTotal] = useState(0);
   const [startGame, setStartGame] = useState(false);
+  const [playerAce, setPlayerAce] = useState(false);
+  const [dealerAce, setDealerAce] = useState(false);
   const [winner, setWinner] = useState("");
 
   useEffect(() => {
@@ -34,16 +36,33 @@ function BlackJack() {
   };
 
   const calculate = () => {
-    let player = 0;
-    let dealer = 0;
+    let player = [0];
+    let dealer = [0];
     playerHand.map((card) => {
-      player += card.value;
+      player[0] += card.value;
+      if (card.value === 1) {
+        setPlayerAce(true);
+        player.push += card.value + 10;
+      }
     });
     dealerHand.map((card) => {
-      dealer += card.value;
+      dealer[0] += card.value;
+      if (card.value === 1) {
+        setDealerAce(true);
+        dealer.push += card.value + 10;
+      }
     });
-    setPlayerTotal(player);
-    setdealerTotal(dealer);
+
+    if (playerAce && player[0] > 21) {
+      setPlayerTotal(player.pop());
+    } else {
+      setPlayerTotal(player);
+    }
+    if (dealerAce && dealer[0] > 21) {
+      setDealerTotal(dealer.pop());
+    } else {
+      setDealerTotal(dealer);
+    }
 
     if (player >= 21 || dealer >= 21) {
       checkWinner();
@@ -54,7 +73,7 @@ function BlackJack() {
     //Check Ace
     //If we find an Ace, hand = 2 values, if one of the value goes over 21,
     //delete it and only keep other one
-    
+
     if (dealerTotal > 21) {
       setWinner("Player");
       return;
