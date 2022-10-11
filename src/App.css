@@ -1,5 +1,14 @@
+h6{
+  text-align: start;
+}
 .App {
-  text-align: center;
+   text-align: center;
+    margin: 30px auto;
+    width: 800px;
+    background-color: aliceblue;
+    padding: 10px;
+    border: 1px solid lavender;
+    border-radius: 10px;
 }
 
 .App-logo {
