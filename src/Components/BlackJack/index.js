@@ -13,11 +13,12 @@ function BlackJack() {
   const [playerTotal, setPlayerTotal] = useState(0);
   const [dealerTotal, setDealerTotal] = useState(0);
   const [startGame, setStartGame] = useState(false);
-  const [winner, setWinner] = useState("");
+  //handle ace
   const [playerAce, setPlayerAce] = useState(false);
   const [dealerAce, setDealerAce] = useState(false);
   //modal
   const [show, setShow] = useState(false);
+  const [winner, setWinner] = useState("");
 
   const handleClose = () => {
     setShow(false)
