@@ -11,33 +11,65 @@ function BlackJack() {
   const [dealerHand, setDealerHand] = useState([]);
   const [playerTotal, setPlayerTotal] = useState(0);
   const [dealerTotal, setdealerTotal] = useState(0);
+  const [startGame, setStartGame] = useState(false);
+  const [winner, setWinner] = useState("");
 
   useEffect(() => {
     setDeck(new Deck().cards);
   }, []);
 
   useEffect(() => {
-    calculate()
+    calculate();
   }, [playerHand, dealerHand]);
 
   const play = () => {
     setPlayerHand([...playerHand, deck.pop(), deck.pop()]);
     setDealerHand([...dealerHand, deck.pop(), deck.pop()]);
-    calculate()
+    calculate();
+    setStartGame(true);
+  };
+
+  const hit = () => {
+    setPlayerHand([...playerHand, deck.pop()]);
   };
 
   const calculate = () => {
-    let player = 0
-    let dealer = 0
+    let player = 0;
+    let dealer = 0;
     playerHand.map((card) => {
-      player += card.value
-    })
+      player += card.value;
+    });
     dealerHand.map((card) => {
-      dealer += card.value
-    })
-    setPlayerTotal(player)
-    setdealerTotal(dealer)
-  }
+      dealer += card.value;
+    });
+    setPlayerTotal(player);
+    setdealerTotal(dealer);
+
+    if (player >= 21 || dealer >= 21) {
+      checkWinner();
+    }
+  };
+
+  const checkWinner = () => {
+    //Check Ace
+    //If we find an Ace, hand = 2 values, if one of the value goes over 21,
+    //delete it and only keep other one
+    
+    if (dealerTotal > 21) {
+      setWinner("Player");
+      return;
+    } else if (playerTotal > 21) {
+      setWinner("Dealer");
+      return;
+    } else if (playerTotal > dealerTotal) {
+      setWinner("Player");
+    } else if (dealerTotal > playerTotal) {
+      setWinner("Dealer");
+    } else {
+      setWinner("Tie");
+    }
+  };
+  //modal pop up if winner is truthy
   return (
     <div className="px-5 py-5">
       <div>
@@ -62,10 +94,23 @@ function BlackJack() {
           <h4>Player Toal: {playerTotal} </h4>
         </Row>
       </div>
+      {startGame ? (
+        <div>
+          <Button onClick={hit} variant="outline-success">
+            {" "}
+            HIT{" "}
+          </Button>
+          <Button variant="outline-danger" onClick={checkWinner}>
+            {" "}
+            STAND{" "}
+          </Button>{" "}
+        </div>
+      ) : (
+        <Button onClick={play} variant="warning">
+          START GAME
+        </Button>
+      )}
 
-      <Button onClick={play} variant="warning">
-        START GAME
-      </Button>
       <Rules />
     </div>
   );
