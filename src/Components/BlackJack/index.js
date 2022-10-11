@@ -4,7 +4,6 @@ import { Button, Card, Row, Modal } from "react-bootstrap";
 import Deck from "../DeckClass.js";
 import Rules from "./Rules.js";
 import CardShow from "./CardShow.js";
-import WinLose from "./WinLose.js";
 
 function BlackJack() {
   const [deck, setDeck] = useState([]);
@@ -157,9 +156,9 @@ function BlackJack() {
           <Modal.Header closeButton>
             <Modal.Title>BAM!</Modal.Title>
           </Modal.Header>
-          {winner == "Player" ? (
+          {winner === "Player" ? (
             <Modal.Body>Winner Winner Chicken Dinner</Modal.Body>
-          ) : winner == "Dealer" ? (
+          ) : winner === "Dealer" ? (
             <Modal.Body>You win sum... you lose sum...</Modal.Body>
           ) : (
             <Modal.Body> It's a tie!!</Modal.Body>
