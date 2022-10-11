@@ -4,6 +4,7 @@ function Rules() {
   return (
     <div>
       <h4>Rules</h4>
+      <p>Some rules have not been added at this time...</p>
         <p>
           Beat the dealer by getting as close to 21 as possible without going over
         </p>
