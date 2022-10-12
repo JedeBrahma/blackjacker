@@ -176,7 +176,7 @@ function BlackJack() {
           </Modal.Footer>
         </Modal>
       </div>
-      <p>Brought to you by Mason, John, Kim, Adnan, Tom</p>
+      <p>Brought to you by Mason, John, Kim, Adnan, Tom, Jimmy</p>
     </div>
   );
 }
