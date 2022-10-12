@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Button, Card, Row, Modal } from "react-bootstrap";
+import { Button, Row, Modal } from "react-bootstrap";
 import Deck from "../DeckClass.js";
 import Rules from "./Rules.js";
 import CardShow from "./CardShow.js";
@@ -23,8 +23,8 @@ function BlackJack() {
     setShow(false);
     setDeck(new Deck().cards);
     setStartGame(false);
-    setPlayerHand([])
-    setDealerHand([])
+    setPlayerHand([]);
+    setDealerHand([]);
   };
 
   useEffect(() => {
@@ -109,42 +109,47 @@ function BlackJack() {
 
   //modal pop up if winner is truthy
   return (
-    <div className="px-5 py-5">
-      <div>
-        <h2>Dealer Cards</h2>
-        <Row xs={2} lg={3} className="g-5 py-5">
-          {dealerHand.map((card) => {
-            return <CardShow card={card} />;
-          })}
-        </Row>
-        <Row>
-          <h4>Dealer Toal: {dealerTotal}</h4>
-        </Row>
-      </div>
-      <div>
-        <h2>Player Cards</h2>
-        <Row xs={2} lg={3} className="g-5 py-5">
-          {playerHand.map((card) => {
-            return <CardShow card={card} />;
-          })}
-        </Row>
-        <Row>
-          <h4>Player Toal: {playerTotal} </h4>
-        </Row>
-      </div>
+    <div className='px-0 py-0'>
+      <h1>♦︎ Black Jack ♦︎</h1>
+      {startGame && (
+        <>
+          <div>
+            <h6>Dealer Cards</h6>
+            <Row xs={2} lg={3} className='g-0 py-0'>
+              {dealerHand.map((card) => {
+                return <CardShow card={card} />;
+              })}
+            </Row>
+            <Row>
+              <h5>Dealer Total: {dealerTotal}</h5>
+            </Row>
+          </div>
+          <div>
+            <h6>Player Cards</h6>
+            <Row xs={2} lg={3} className='g-0 py-0'>
+              {playerHand.map((card) => {
+                return <CardShow card={card} />;
+              })}
+            </Row>
+            <Row>
+              <h5>Player Total: {playerTotal} </h5>
+            </Row>
+          </div>
+        </>
+      )}
       {startGame ? (
-        <div>
-          <Button onClick={hit} variant="outline-success">
+        <div className='g-50 py-50' style={{ margin: 10 }}>
+          <Button onClick={hit} variant='outline-success'>
             {" "}
             HIT{" "}
           </Button>
-          <Button variant="outline-danger" onClick={checkWinner}>
+          <Button variant='outline-danger' onClick={checkWinner}>
             {" "}
             STAND{" "}
           </Button>{" "}
         </div>
       ) : (
-        <Button onClick={play} variant="warning">
+        <Button onClick={play} variant='warning'>
           START GAME
         </Button>
       )}
@@ -165,7 +170,7 @@ function BlackJack() {
           )}
 
           <Modal.Footer>
-            <Button variant="success" onClick={handleClose}>
+            <Button variant='success' onClick={handleClose}>
               New Game
             </Button>
           </Modal.Footer>
