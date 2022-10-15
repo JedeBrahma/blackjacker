@@ -33,6 +33,7 @@ function BlackJack() {
 
   useEffect(() => {
     calculate();
+    console.log("hello")
   }, [playerHand, dealerHand, winner, playerTotal, dealerTotal]);
 
   const play = () => {
@@ -48,8 +49,13 @@ function BlackJack() {
   };
 
   const calculate = () => {
-    let player = [0];
-    let dealer = [0]; //[9, 19]
+    let player = [0]; //0
+    let dealer = [0]; 
+
+    // playerHand.map((card) => {
+    //   player[0] += card.value;
+
+    // })
     playerHand.map((card) => {
       let temp = player[0];
       player[0] += card.value;
@@ -109,13 +115,13 @@ function BlackJack() {
 
   //modal pop up if winner is truthy
   return (
-    <div className='px-0 py-0'>
+    <div className="px-0 py-0">
       <h1>♦︎ Black Jack ♦︎</h1>
       {startGame && (
         <>
           <div>
             <h6>Dealer Cards</h6>
-            <Row xs={2} lg={3} className='g-0 py-0'>
+            <Row xs={2} lg={3} className="g-0 py-0">
               {dealerHand.map((card) => {
                 return <CardShow card={card} />;
               })}
@@ -126,7 +132,7 @@ function BlackJack() {
           </div>
           <div>
             <h6>Player Cards</h6>
-            <Row xs={2} lg={3} className='g-0 py-0'>
+            <Row xs={2} lg={3} className="g-0 py-0">
               {playerHand.map((card) => {
                 return <CardShow card={card} />;
               })}
@@ -138,18 +144,18 @@ function BlackJack() {
         </>
       )}
       {startGame ? (
-        <div className='g-50 py-50' style={{ margin: 10 }}>
-          <Button onClick={hit} variant='outline-success'>
+        <div className="g-50 py-50" style={{ margin: 10 }}>
+          <Button onClick={hit} variant="outline-success">
             {" "}
             HIT{" "}
           </Button>
-          <Button variant='outline-danger' onClick={checkWinner}>
+          <Button variant="outline-danger" onClick={checkWinner}>
             {" "}
             STAND{" "}
           </Button>{" "}
         </div>
       ) : (
-        <Button onClick={play} variant='warning'>
+        <Button onClick={play} variant="warning">
           START GAME
         </Button>
       )}
@@ -170,7 +176,7 @@ function BlackJack() {
           )}
 
           <Modal.Footer>
-            <Button variant='success' onClick={handleClose}>
+            <Button variant="success" onClick={handleClose}>
               New Game
             </Button>
           </Modal.Footer>
